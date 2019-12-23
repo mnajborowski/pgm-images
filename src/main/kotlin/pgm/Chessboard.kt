@@ -1,3 +1,5 @@
+package pgm
+
 class Chessboard(size: Int) : PgmImage(size) {
     init {
         create()

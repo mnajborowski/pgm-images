@@ -1,3 +1,5 @@
+package pgm
+
 import java.io.File
 
 abstract class PgmImage(protected val size: Int) {

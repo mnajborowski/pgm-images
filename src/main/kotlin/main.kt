@@ -1,3 +1,8 @@
+import pgm.Chessboard
+import pgm.HorizontalStripes
+import pgm.TLetter
+import pgm.VerticalStripes
+
 fun main() {
     val chessboard = Chessboard(128)
     chessboard.convolute(100)

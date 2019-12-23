@@ -1,3 +1,5 @@
+package pgm
+
 class TLetter(size: Int) : PgmImage(size) {
     init {
         create()
