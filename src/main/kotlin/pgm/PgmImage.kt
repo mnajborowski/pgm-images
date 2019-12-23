@@ -2,7 +2,7 @@ package pgm
 
 import java.io.File
 
-abstract class PgmImage(protected val size: Int) {
+open class PgmImage protected constructor(protected val size: Int) {
     init {
         require(size > 0 && size % 8 == 0) { "Size must be divisible by 8." }
     }
@@ -10,12 +10,32 @@ abstract class PgmImage(protected val size: Int) {
     protected val image = Array(size) { DoubleArray(size) }
     protected val blockSize = size / 8
 
-    protected abstract fun create()
+    companion object {
+        fun loadFromFile(filename: String, maxValue: Int = 255): PgmImage {
+            val file = File(filename)
+            check(file.exists()) { "File doesn't exist." }
+
+            val values = file.useLines { lines ->
+                lines.flatMap { line ->
+                    line.split(' ').asSequence()
+                }.filter { it.isNotBlank() }.toList()
+            }
+            val size = values[1].toInt()
+
+            return PgmImage(size).apply { create(values.drop(4), maxValue) }
+        }
+    }
+
+    private fun create(values: List<String>, maxValue: Int) {
+        for (i in 0 until size)
+            for (j in 0 until size)
+                image[i][j] = maxValue / values[i + j].toDouble()
+    }
 
     fun convolute(n: Int) {
         val convolutedImage = Array(size) { DoubleArray(size) }
         repeat(n) {
-            for (i in 0 until size) {
+            (0 until size).toList().parallelStream().forEach { i ->
                 for (j in 0 until size) {
                     var newValue = 0.6 * image[i][j]
 
@@ -31,7 +51,7 @@ abstract class PgmImage(protected val size: Int) {
         }
     }
 
-    fun saveFile(filename: String, maxValue: Int) {
+    fun saveToFile(filename: String, maxValue: Int = 255) {
         val file = File(filename)
         file.createNewFile()
 
