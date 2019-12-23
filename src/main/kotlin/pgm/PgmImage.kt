@@ -17,8 +17,8 @@ open class PgmImage protected constructor(protected val size: Int) {
 
             val values = file.useLines { lines ->
                 lines.flatMap { line ->
-                    line.split(' ').asSequence()
-                }.filter { it.isNotBlank() }.toList()
+                    line.trim().split(' ').asSequence()
+                }.toList()
             }
             val size = values[1].toInt()
 
@@ -29,7 +29,7 @@ open class PgmImage protected constructor(protected val size: Int) {
     private fun create(values: List<String>, maxValue: Int) {
         for (i in 0 until size)
             for (j in 0 until size)
-                image[i][j] = maxValue / values[i + j].toDouble()
+                image[i][j] = values[i * size + j].toDouble() / maxValue
     }
 
     fun convolute(n: Int) {
