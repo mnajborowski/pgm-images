@@ -2,7 +2,7 @@ import java.io.File
 
 abstract class PgmImage(protected val size: Int) {
     init {
-        require(size % 8 == 0) { "Size must be divisible by 8." }
+        require(size > 0 && size % 8 == 0) { "Size must be divisible by 8." }
     }
 
     protected val image = Array(size) { DoubleArray(size) }
