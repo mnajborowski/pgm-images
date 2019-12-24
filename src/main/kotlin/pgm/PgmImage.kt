@@ -11,7 +11,7 @@ open class PgmImage protected constructor(protected val size: Int) {
     protected val blockSize = size / 8
 
     companion object {
-        fun loadFromFile(filename: String, maxValue: Int = 255): PgmImage {
+        fun loadFromFile(filename: String): PgmImage {
             val file = File(filename)
             check(file.exists()) { "File doesn't exist." }
 
@@ -21,6 +21,7 @@ open class PgmImage protected constructor(protected val size: Int) {
                 }.toList()
             }
             val size = values[1].toInt()
+            val maxValue = values[3].toInt()
 
             return PgmImage(size).apply { create(values.drop(4), maxValue) }
         }
