@@ -15,8 +15,8 @@ open class PgmImage protected constructor(protected val size: Int) {
             val file = File(filename)
             check(file.exists()) { "File doesn't exist." }
 
-            val values = file.useLines { lines ->
-                lines.flatMap { line ->
+            val values = file.useLines {
+                it.flatMap { line ->
                     line.trim().split(' ').asSequence()
                 }.toList()
             }
