@@ -5,7 +5,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
-open class PgmImage protected constructor(protected val size: Int) {
+open class PgmImage
+protected constructor(protected val size: Int) {
     init {
         require(size > 0 && size % 8 == 0) { "Size must be divisible by 8." }
     }
