@@ -12,6 +12,7 @@ open class PgmImage protected constructor(protected val size: Int) {
 
     companion object {
         fun loadFromFile(filename: String): PgmImage {
+            require(filename.endsWith(".pgm", ignoreCase = true)) { "File should have .pgm extension." }
             val file = File(filename)
             check(file.exists()) { "File doesn't exist." }
 
@@ -53,6 +54,7 @@ open class PgmImage protected constructor(protected val size: Int) {
     }
 
     fun saveToFile(filename: String, maxValue: Int = 255) {
+        require(filename.endsWith(".pgm", ignoreCase = true)) { "File should have .pgm extension." }
         val file = File(filename)
         file.createNewFile()
 
