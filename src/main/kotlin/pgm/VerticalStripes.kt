@@ -8,7 +8,7 @@ class VerticalStripes(size: Int) : PgmImage(size) {
     private fun create() {
         for (i in 0 until size) {
             for (j in 0 until size) {
-                if (j % (2 * blockSize) < blockSize) image[i][j] = 1.0
+                if (j % (2 * blockSize) < blockSize) image[i][j] = 1.0f
             }
         }
     }
