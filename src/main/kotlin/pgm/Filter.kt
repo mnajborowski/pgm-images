@@ -7,7 +7,7 @@ import kotlinx.coroutines.runBlocking
 
 class Filter(private val kernel: Array<FloatArray>) {
     init {
-        require(kernel.size == 3 && kernel.all { row -> row.size == 3 }) { "The matrix must be 3x3 size." }
+        require(kernel.size == 3 && kernel.all { row -> row.size == 3 }) { "The kernel must be 3x3 size." }
     }
 
     fun convolute(n: Int, pgmImage: PgmImage) = runBlocking {
