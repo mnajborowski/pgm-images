@@ -1,3 +1,5 @@
+package utils
+
 import kotlinx.coroutines.*
 
 suspend inline fun <T> Collection<T>.forEachParallel(crossinline action: suspend (T) -> Unit) = coroutineScope {

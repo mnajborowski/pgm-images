@@ -8,14 +8,15 @@ fun main() {
     chessboard.saveToFile("chessboard.pgm", 255)
 
     val tLetter = TLetter(64)
-    tLetter.saveToFile("tLetter.pgm", 255)
+    tLetter.saveToFile("t_letter.pgm", 255)
 
     val verticalStripes = VerticalStripes(64)
-    verticalStripes.saveToFile("verticalStripes.pgm", 255)
+    verticalStripes.saveToFile("vertical_stripes.pgm", 255)
 
     val horizontalStripes = HorizontalStripes(64)
-    horizontalStripes.saveToFile("horizontalStripes.pgm", 255)
+    horizontalStripes.saveToFile("horizontal_stripes.pgm", 255)
 
     val image = PgmImage.loadFromFile("chessboard.pgm")
-    image.saveToFile("newChessboard.pgm", 255)
+    image.convolute(2, Filters.weird)
+    image.saveToFile("chessboard_copy.pgm", 255)
 }
