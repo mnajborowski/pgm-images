@@ -1,7 +1,5 @@
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
-inline fun <T> Collection<T>.forEachParallel(crossinline action: suspend (T) -> Unit) = runBlocking {
+suspend inline fun <T> Collection<T>.forEachParallel(crossinline action: suspend (T) -> Unit) = withContext(Dispatchers.Default) {
     map { async(Dispatchers.Default) { action(it) } }.forEach { it.await() }
 }
