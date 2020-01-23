@@ -38,11 +38,12 @@ protected constructor(protected val size: Int) {
                 image[i][j] = values[i * size + j].toFloat() / maxValue
     }
 
-    fun convolute(n: Int) = runBlocking {
+    fun convolute(n: Int, filter: Array<FloatArray>) = runBlocking {
         val convolutedImage = Array(size) { FloatArray(size) }
         val blocks = (1 until size - 1).chunked(if (size == 8) 1 else size / 16)
+
         repeat(n) {
-            val job = async {
+            val calculateBordersJob = async {
                 convolutedImage[0][0] =
                     0.6f * image[0][0] + 0.1f * (image[0][1] + image[1][0])
                 convolutedImage[0][size - 1] =
@@ -65,18 +66,22 @@ protected constructor(protected val size: Int) {
             blocks.forEachParallel {
                 for (i in it) {
                     for (j in 1 until size - 1) {
-                        var newValue = 0.6f * image[i][j]
-
-                        newValue += 0.1f * image[i - 1][j]
-                        newValue += 0.1f * image[i + 1][j]
-                        newValue += 0.1f * image[i][j - 1]
-                        newValue += 0.1f * image[i][j + 1]
+                        var newValue = filter[1][1] * image[i][j]
+                        newValue += filter[0][0] * image[i + 1][j - 1]
+                        newValue += filter[0][1] * image[i + 1][j]
+                        newValue += filter[0][2] * image[i + 1][j + 1]
+                        newValue += filter[1][0] * image[i][j - 1]
+                        newValue += filter[1][2] * image[i][j + 1]
+                        newValue += filter[2][0] * image[i - 1][j - 1]
+                        newValue += filter[2][1] * image[i - 1][j]
+                        newValue += filter[2][2] * image[i - 1][j + 1]
 
                         convolutedImage[i][j] = newValue
                     }
                 }
             }
-            job.await()
+            calculateBordersJob.await()
+
             convolutedImage.copyInto(image)
         }
     }

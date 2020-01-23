@@ -3,7 +3,7 @@ import kotlin.system.measureTimeMillis
 
 fun main() {
     val chessboard = Chessboard(1024)
-    val time = measureTimeMillis { chessboard.convolute(1000) }
+    val time = measureTimeMillis { chessboard.convolute(1000, Filters.blur) }
     println(time)
     chessboard.saveToFile("chessboard.pgm", 255)
 
