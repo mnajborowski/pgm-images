@@ -9,7 +9,7 @@ protected constructor(protected val size: Int) {
         require(size > 0 && size % 8 == 0) { "Size must be divisible by 8." }
     }
 
-    protected val image = Array(size) { DoubleArray(size) }
+    protected val image = Array(size) { FloatArray(size) }
     protected val blockSize = size / 8
 
     companion object {
@@ -33,21 +33,22 @@ protected constructor(protected val size: Int) {
     private fun create(values: List<String>, maxValue: Int) {
         for (i in 0 until size)
             for (j in 0 until size)
-                image[i][j] = values[i * size + j].toDouble() / maxValue
+                image[i][j] = values[i * size + j].toFloat() / maxValue
     }
 
     fun convolute(n: Int) {
-        val convolutedImage = Array(size) { DoubleArray(size) }
+        val convolutedImage = Array(size) { FloatArray(size) }
+        val blocks = (0 until size).chunked(if (size == 8) 1 else size / 16)
         repeat(n) {
-            (0 until size).chunked(if (size == 8) 1 else size / 16).forEachParallel {
+            blocks.forEachParallel {
                 for (i in it) {
                     for (j in 0 until size) {
-                        var newValue = 0.6 * image[i][j]
+                        var newValue = 0.6f * image[i][j]
 
-                        if (i != 0) newValue += 0.1 * image[i - 1][j]
-                        if (i != size - 1) newValue += 0.1 * image[i + 1][j]
-                        if (j != 0) newValue += 0.1 * image[i][j - 1]
-                        if (j != size - 1) newValue += 0.1 * image[i][j + 1]
+                        if (i != 0) newValue += 0.1f * image[i - 1][j]
+                        if (i != size - 1) newValue += 0.1f * image[i + 1][j]
+                        if (j != 0) newValue += 0.1f * image[i][j - 1]
+                        if (j != size - 1) newValue += 0.1f * image[i][j + 1]
 
                         convolutedImage[i][j] = newValue
                     }
