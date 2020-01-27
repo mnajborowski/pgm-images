@@ -1,6 +1,7 @@
 package pgm
 
 import java.io.File
+import kotlin.math.max
 
 open class PgmImage
 protected constructor(val size: Int) {
@@ -47,7 +48,7 @@ protected constructor(val size: Int) {
 
             for (i in 0 until size) {
                 for (j in 0 until size) {
-                    val value = (image[i][j] * maxValue).toInt()
+                    val value = (image[i][j] * maxValue).toInt().coerceIn(0..maxValue)
                     out.print("$value ")
                 }
                 out.println()

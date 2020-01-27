@@ -3,8 +3,6 @@ import kotlin.system.measureTimeMillis
 
 fun main() {
     val chessboard = Chessboard(1024)
-    val time = measureTimeMillis { chessboard.convolute(1000, Filters.blur) }
-    println(time)
     chessboard.saveToFile("chessboard.pgm", 255)
 
     val tLetter = TLetter(64)
@@ -16,7 +14,28 @@ fun main() {
     val horizontalStripes = HorizontalStripes(64)
     horizontalStripes.saveToFile("horizontal_stripes.pgm", 255)
 
-    val image = PgmImage.loadFromFile("chessboard.pgm")
-    image.convolute(2, Filters.weird)
-    image.saveToFile("chessboard_copy.pgm", 255)
+    val blur = PgmImage.loadFromFile("chessboard.pgm")
+    val time = measureTimeMillis { blur.convolute(1000, Filters.blur) }
+    println(time)
+    blur.saveToFile("chessboard_blur.pgm", 255)
+
+    val sharpen = PgmImage.loadFromFile("chessboard_blur.pgm")
+    sharpen.convolute(1, Filters.sharpen)
+    sharpen.saveToFile("chessboard_sharpen.pgm", 255)
+
+    val weird = PgmImage.loadFromFile("chessboard_blur.pgm")
+    weird.convolute(2, Filters.weird)
+    weird.saveToFile("chessboard_weird.pgm", 255)
+
+    val outline = PgmImage.loadFromFile("chessboard.pgm")
+    outline.convolute(1, Filters.outline)
+    outline.saveToFile("chessboard_outline.pgm", 255)
+
+    val emboss = PgmImage.loadFromFile("chessboard_blur.pgm")
+    emboss.convolute(1, Filters.emboss)
+    emboss.saveToFile("chessboard_emboss.pgm", 255)
+
+    val bottomSobel = PgmImage.loadFromFile("chessboard.pgm")
+    bottomSobel.convolute(1, Filters.bottomSobel)
+    bottomSobel.saveToFile("chessboard_bottom_sobel.pgm", 255)
 }
