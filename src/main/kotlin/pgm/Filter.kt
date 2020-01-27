@@ -15,12 +15,7 @@ class Filter(private val kernel: Array<FloatArray>) {
         val size = pgmImage.size
 
         val convolutedImage = Array(size) { FloatArray(size) }
-        val blocks = (1 until size - 1).chunked(
-            when (size) {
-                8, 16 -> 1
-                else -> size / 32
-            }
-        )
+        val blocks = (1 until size - 1).chunked((size / 32).coerceAtLeast(1))
 
         repeat(n) {
             val calculateBordersJob = async(Dispatchers.Default) {
