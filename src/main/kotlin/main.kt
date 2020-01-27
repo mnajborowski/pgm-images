@@ -29,10 +29,6 @@ fun main() {
     sharpen.convolute(1, Filters.sharpen)
     sharpen.saveToFile("chessboard_sharpen.pgm", 255)
 
-    val weird = PgmImage.loadFromFile("chessboard_blur.pgm")
-    weird.convolute(2, Filters.weird)
-    weird.saveToFile("chessboard_weird.pgm", 255)
-
     val outline = PgmImage.loadFromFile("chessboard.pgm")
     outline.convolute(1, Filters.outline)
     outline.saveToFile("chessboard_outline.pgm", 255)
@@ -44,4 +40,12 @@ fun main() {
     val bottomSobel = PgmImage.loadFromFile("chessboard.pgm")
     bottomSobel.convolute(1, Filters.bottomSobel)
     bottomSobel.saveToFile("chessboard_bottom_sobel.pgm", 255)
+
+    val leftSobel = PgmImage.loadFromFile("chessboard.pgm")
+    leftSobel.convolute(1, Filters.leftSobel)
+    leftSobel.saveToFile("chessboard_left_sobel.pgm", 255)
+
+    val weird = PgmImage.loadFromFile("chessboard_blur.pgm")
+    weird.convolute(2, Filters.weird)
+    weird.saveToFile("chessboard_weird.pgm", 255)
 }

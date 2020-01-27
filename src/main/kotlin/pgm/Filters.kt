@@ -17,14 +17,6 @@ object Filters {
         )
     )
 
-    val weird = Filter(
-        arrayOf(
-            floatArrayOf(0.0f, 0.1f, 0.0f),
-            floatArrayOf(0.1f, 2.0f, 0.1f),
-            floatArrayOf(0.0f, 0.1f, 0.0f)
-        )
-    )
-
     val outline = Filter(
         arrayOf(
             floatArrayOf(-1.0f, -1.0f, -1.0f),
@@ -54,6 +46,22 @@ object Filters {
             floatArrayOf(-1.0f, -2.0f, -1.0f),
             floatArrayOf(0.0f, 0.0f, 0.0f),
             floatArrayOf(1.0f, 2.0f, 1.0f)
+        )
+    )
+
+    val leftSobel = Filter(
+        arrayOf(
+            floatArrayOf(1.0f, 0.0f, -1.0f),
+            floatArrayOf(2.0f, 0.0f, -2.0f),
+            floatArrayOf(1.0f, 0.0f, -1.0f)
+        )
+    )
+
+    val weird = Filter(
+        arrayOf(
+            floatArrayOf(0.0f, 0.1f, 0.0f),
+            floatArrayOf(0.1f, 2.0f, 0.1f),
+            floatArrayOf(0.0f, 0.1f, 0.0f)
         )
     )
 }
