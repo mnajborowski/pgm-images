@@ -22,7 +22,7 @@ fun main() {
     blur.saveToFile("chessboard_blur.pgm", 255)
 
     val boxBlur = PgmImage.loadFromFile("chessboard.pgm")
-    boxBlur.convolute(20, Filters.boxBlur)
+    boxBlur.convolute(100, Filters.boxBlur)
     boxBlur.saveToFile("chessboard_box_blur.pgm", 255)
 
     val sharpen = PgmImage.loadFromFile("chessboard_blur.pgm")
