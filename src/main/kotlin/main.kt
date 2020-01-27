@@ -2,6 +2,7 @@ import pgm.*
 import kotlin.system.measureTimeMillis
 
 fun main() {
+    // Shapes
     val chessboard = Chessboard(1024)
     chessboard.saveToFile("chessboard.pgm", 255)
 
@@ -14,10 +15,15 @@ fun main() {
     val horizontalStripes = HorizontalStripes(64)
     horizontalStripes.saveToFile("horizontal_stripes.pgm", 255)
 
+    // Filters
     val blur = PgmImage.loadFromFile("chessboard.pgm")
     val time = measureTimeMillis { blur.convolute(1000, Filters.blur) }
     println(time)
     blur.saveToFile("chessboard_blur.pgm", 255)
+
+    val boxBlur = PgmImage.loadFromFile("chessboard.pgm")
+    boxBlur.convolute(20, Filters.boxBlur)
+    boxBlur.saveToFile("chessboard_box_blur.pgm", 255)
 
     val sharpen = PgmImage.loadFromFile("chessboard_blur.pgm")
     sharpen.convolute(1, Filters.sharpen)

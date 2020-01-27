@@ -9,10 +9,18 @@ object Filters {
         )
     )
 
+    val boxBlur = Filter(
+        arrayOf(
+            floatArrayOf(1.0f / 9, 1.0f / 9, 1.0f / 9),
+            floatArrayOf(1.0f / 9, 1.0f / 9, 1.0f / 9),
+            floatArrayOf(1.0f / 9, 1.0f / 9, 1.0f / 9)
+        )
+    )
+
     val weird = Filter(
         arrayOf(
             floatArrayOf(0.0f, 0.1f, 0.0f),
-            floatArrayOf(0.1f, 2f, 0.1f),
+            floatArrayOf(0.1f, 2.0f, 0.1f),
             floatArrayOf(0.0f, 0.1f, 0.0f)
         )
     )

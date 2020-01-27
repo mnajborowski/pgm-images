@@ -1,7 +1,6 @@
 package pgm
 
 import java.io.File
-import kotlin.math.max
 
 open class PgmImage
 protected constructor(val size: Int) {
@@ -11,6 +10,28 @@ protected constructor(val size: Int) {
 
     val image = Array(size) { FloatArray(size) }
     protected val blockSize = size / 8
+
+    fun convolute(n: Int, filter: Filter) = filter.convolute(n, this)
+
+    fun saveToFile(filename: String, maxValue: Int = 255) {
+        require(filename.endsWith(".pgm", ignoreCase = true)) { "File should have .pgm extension." }
+        val file = File(filename)
+        file.createNewFile()
+
+        file.printWriter().use { out ->
+            out.println("P2")
+            out.println("$size $size")
+            out.println(maxValue)
+
+            for (i in 0 until size) {
+                for (j in 0 until size) {
+                    val value = (image[i][j] * maxValue).toInt().coerceIn(0, maxValue)
+                    out.print("$value ")
+                }
+                out.println()
+            }
+        }
+    }
 
     companion object {
         fun loadFromFile(filename: String): PgmImage {
@@ -26,35 +47,12 @@ protected constructor(val size: Int) {
             val size = values[1].toInt()
             val maxValue = values[3].toInt()
 
-            return PgmImage(size).apply { create(values.drop(4), maxValue) }
-        }
-    }
-
-    private fun create(values: List<String>, maxValue: Int) {
-        for (i in 0 until size)
-            for (j in 0 until size)
-                image[i][j] = values[i * size + j].toFloat() / maxValue
-    }
-
-    fun saveToFile(filename: String, maxValue: Int = 255) {
-        require(filename.endsWith(".pgm", ignoreCase = true)) { "File should have .pgm extension." }
-        val file = File(filename)
-        file.createNewFile()
-
-        file.printWriter().use { out ->
-            out.println("P2")
-            out.println("$size $size")
-            out.println(maxValue)
-
-            for (i in 0 until size) {
-                for (j in 0 until size) {
-                    val value = (image[i][j] * maxValue).toInt().coerceIn(0..maxValue)
-                    out.print("$value ")
-                }
-                out.println()
+            return PgmImage(size).apply {
+                val pixels = values.drop(4)
+                for (i in 0 until size)
+                    for (j in 0 until size)
+                        image[i][j] = pixels[i * size + j].toFloat() / maxValue
             }
         }
     }
-
-    fun convolute(n: Int, filter: Filter) = filter.convolute(n, this)
 }
