@@ -2,6 +2,7 @@ package pgm
 
 class HorizontalStripes(size: Int) : PgmImage(size) {
     init {
+        require(size % 8 == 0) { "Size must be divisible by 8." }
         create()
     }
 
